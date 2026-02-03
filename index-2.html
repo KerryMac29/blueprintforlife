@@ -1,0 +1,2233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blueprint for Life - Dream Your Future</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Landing Page */
+        .landing-page {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+        }
+
+        .landing-page h1 {
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .mlk-quote {
+            background: rgba(255,255,255,0.95);
+            color: #333;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px auto;
+            max-width: 800px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            font-size: 1.3em;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .mlk-quote cite {
+            display: block;
+            margin-top: 15px;
+            font-style: normal;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .prompt {
+            font-size: 2em;
+            margin: 40px 0 30px 0;
+            font-weight: bold;
+        }
+
+        /* Career Grid */
+        .career-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .career-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .career-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        .career-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .career-card h3 {
+            color: #333;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+
+        .career-card p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        /* Career Pathway View */
+        .pathway-view {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-top: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .pathway-view.active {
+            display: block;
+        }
+
+        .back-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-bottom: 30px;
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #5568d3;
+        }
+
+        .pathway-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .pathway-header h2 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .pathway-header .dream-connection {
+            background: #f0f7ff;
+            padding: 20px;
+            border-radius: 10px;
+            color: #333;
+            font-size: 1.1em;
+            border-left: 4px solid #667eea;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+            width: 100%;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: 0;
+            margin-right: auto;
+            padding-right: 50px;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+            margin-right: 0;
+            padding-left: 50px;
+            text-align: left;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 4px solid #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            top: 20px;
+            z-index: 1;
+        }
+
+        .timeline-item.today .timeline-marker {
+            background: #ffd700;
+            border-color: #ffa500;
+            width: 50px;
+            height: 50px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1); }
+        }
+
+        .timeline-item.today .timeline-content {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe4b3 100%);
+            border: 3px solid #ffa500;
+        }
+
+        .stage-title {
+            font-size: 1.5em;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .timeline-item.today .stage-title {
+            color: #ff6b00;
+        }
+
+        .age-range {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .what-you-do {
+            margin: 15px 0;
+        }
+
+        .what-you-do h4 {
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .what-you-do ul {
+            list-style-position: inside;
+            color: #555;
+        }
+
+        .what-you-do li {
+            margin: 5px 0;
+        }
+
+        .checklist {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .checklist-item label {
+            cursor: pointer;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .print-button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin: 30px auto;
+            display: block;
+            transition: background 0.3s ease;
+        }
+
+        .print-button:hover {
+            background: #218838;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .info-box h4 {
+            color: #1976d2;
+            margin-bottom: 8px;
+        }
+
+        .info-box ul {
+            color: #333;
+            list-style-position: inside;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-content {
+                width: calc(100% - 80px);
+                margin-left: 80px !important;
+                margin-right: 0 !important;
+                text-align: left !important;
+                padding: 20px !important;
+            }
+
+            .timeline-marker {
+                left: 30px;
+            }
+
+            .landing-page h1 {
+                font-size: 2em;
+            }
+
+            .mlk-quote {
+                font-size: 1.1em;
+                padding: 20px;
+            }
+
+            .prompt {
+                font-size: 1.5em;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Landing Page -->
+        <div id="landing" class="landing-page">
+            <h1>🌟 Blueprint for Life 🌟</h1>
+            
+            <div class="mlk-quote">
+                "If it falls your lot to be a street sweeper, sweep streets like Michelangelo painted pictures, sweep streets like Beethoven composed music... Sweep streets like Shakespeare wrote poetry. Sweep streets so well that all the hosts of heaven and earth will have to pause and say: Here lived a great street sweeper who swept his job well."
+                <cite>— Dr. Martin Luther King Jr., "What Is Your Life's Blueprint?" speech</cite>
+            </div>
+
+            <div class="prompt">
+                What's YOUR dream?<br>Let's build the path to get there.
+            </div>
+
+            <div id="career-grid" class="career-grid">
+                <!-- Career cards will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Pathway container -->
+        <div id="pathway-container"></div>
+    </div>
+
+    <script>
+        const careers = {
+            teacher: {
+                icon: '📚',
+                title: 'Teacher',
+                subtitle: 'Inspire and educate future generations',
+                dreamConnection: 'Teachers shape the future by educating all children equally, giving everyone the opportunity to learn and grow, just like Dr. King dreamed.',
+                stages: [
+                    {
+                        title: 'Professional Teacher',
+                        age: 'Age 23+',
+                        icon: '👩‍🏫',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Inspire students to love learning',
+                                'Create engaging lessons',
+                                'Help students reach their potential',
+                                'Make a difference in young lives every day'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Teaching Credential/License',
+                        age: '1-2 years after college',
+                        icon: '📜',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Student teaching in real classrooms',
+                                'Learn classroom management',
+                                'Pass teaching exams',
+                                'Get your teaching license'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'College/University',
+                        age: '4 years (Ages 18-22)',
+                        icon: '🎓',
+                        items: [
+                            { label: 'Major in:', list: [
+                                'Education or your subject area',
+                                'Child development',
+                                'Teaching methods'
+                            ]},
+                            { label: 'Activities:', list: [
+                                'Tutor other students',
+                                'Volunteer in classrooms',
+                                'Join education clubs'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Focus on:', list: [
+                                'Strong grades in your favorite subjects',
+                                'Communication skills (writing and speaking)',
+                                'Working with diverse groups of people'
+                            ]},
+                            { label: 'Activities:', list: [
+                                'Peer tutoring',
+                                'Camp counselor',
+                                'Volunteer with kids'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Build skills in:', list: [
+                                'All subject areas',
+                                'Public speaking and presentations',
+                                'Patience and understanding',
+                                'Helping explain things to others'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Practice explaining things clearly to classmates',
+                    'Help younger students or siblings with homework',
+                    'Pay attention to what makes YOUR teachers great',
+                    'Work on being patient when others don\'t understand',
+                    'Read lots of books in different subjects',
+                    'Practice public speaking (presentations, class discussions)',
+                    'Be kind and inclusive to all classmates',
+                    'Ask your teacher if you can help with classroom tasks'
+                ]
+            },
+            
+            vet: {
+                icon: '🐾',
+                title: 'Veterinarian',
+                subtitle: 'Care for animals and their health',
+                dreamConnection: 'Veterinarians care for all creatures with compassion, showing kindness and responsibility to those who cannot speak for themselves.',
+                stages: [
+                    {
+                        title: 'Practicing Veterinarian',
+                        age: 'Age 26+',
+                        icon: '🏥',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Diagnose and treat sick or injured animals',
+                                'Perform surgeries and medical procedures',
+                                'Educate pet owners about animal care',
+                                'Work in clinics, hospitals, or farms'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Veterinary School',
+                        age: '4 years after college',
+                        icon: '🎓',
+                        items: [
+                            { label: 'What you study:', list: [
+                                'Animal anatomy and diseases',
+                                'Surgery and medical procedures',
+                                'Pharmacology for animals',
+                                'Clinical rotations with real animals'
+                            ]},
+                            { label: 'Requirements:', list: [
+                                'Very competitive - need excellent grades',
+                                'Lots of animal experience required',
+                                'Pass the Veterinary College Admission Test (VCAT)'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'College/University',
+                        age: '4 years (Ages 18-22)',
+                        icon: '🎓',
+                        items: [
+                            { label: 'Major in:', list: [
+                                'Biology, Animal Science, or Pre-Vet',
+                                'Need GPA of 3.5 or higher'
+                            ]},
+                            { label: 'Activities:', list: [
+                                'Volunteer at animal shelters',
+                                'Work at vet clinics',
+                                'Shadow veterinarians',
+                                'Gain hands-on animal experience'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Classes you MUST take:', list: [
+                                'Biology, Chemistry, Physics',
+                                'Advanced Math',
+                                'English (good communication is essential)'
+                            ]},
+                            { label: 'Experience to gain:', list: [
+                                'Volunteer at animal shelters or rescues',
+                                'Get a job at a pet store or kennel',
+                                'Shadow a local veterinarian'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Classes:', list: [
+                                'Life Science - learn about animals',
+                                'Pre-Algebra and Algebra',
+                                'Start building study habits'
+                            ]},
+                            { label: 'Habits to build:', list: [
+                                'Spend time with animals',
+                                'Read about animal care',
+                                'Learn to be gentle and patient'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Master your math and science - vets use both every day!',
+                    'Read books about animals and how to care for them',
+                    'If you have a pet, take responsibility for feeding and caring for it',
+                    'Visit local animal shelters and learn about different animals',
+                    'Practice being gentle and patient with animals',
+                    'Ask adults about their experiences with vets',
+                    'Watch nature documentaries to learn about wildlife',
+                    'Keep your grades strong in ALL subjects'
+                ]
+            },
+
+            designer: {
+                icon: '🎨',
+                title: 'Designer',
+                subtitle: 'Create beautiful and meaningful art',
+                dreamConnection: 'Designers express important ideas and emotions, helping people understand each other across all differences through visual communication.',
+                stages: [
+                    {
+                        title: 'Professional Designer',
+                        age: 'Age 22+',
+                        icon: '🎨',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Create designs for products, websites, or brands',
+                                'Work with clients to solve visual problems',
+                                'Use creativity to communicate messages',
+                                'Work in studios, companies, or freelance'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Build Your Portfolio',
+                        age: 'During and after college',
+                        icon: '📁',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Create a collection of your best work',
+                                'Do internships at design firms',
+                                'Take on freelance projects',
+                                'Network with other designers'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'College/Art School',
+                        age: '4 years (Ages 18-22)',
+                        icon: '🎓',
+                        items: [
+                            { label: 'Major in:', list: [
+                                'Graphic Design, Fine Arts, or Digital Media',
+                                'Learn design software (Adobe, Figma, etc.)',
+                                'Study art history and theory'
+                            ]},
+                            { label: 'Activities:', list: [
+                                'Join design clubs',
+                                'Enter design competitions',
+                                'Build an online portfolio'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Classes to take:', list: [
+                                'Art classes (drawing, painting, digital)',
+                                'Computer/Technology classes',
+                                'Photography',
+                                'English (for creative thinking)'
+                            ]},
+                            { label: 'Build skills:', list: [
+                                'Practice drawing every day',
+                                'Learn design software',
+                                'Create art for school projects'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Explore:', list: [
+                                'Try different art styles and media',
+                                'Take art classes',
+                                'Learn basic computer skills',
+                                'Study colors, shapes, and composition'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Draw or create art every day - practice makes perfect!',
+                    'Try different art supplies (pencils, markers, paint, digital)',
+                    'Pay attention to colors, shapes, and designs around you',
+                    'Create posters or artwork for class projects',
+                    'Learn basic computer programs (Paint, drawing apps)',
+                    'Visit art museums or look at art online',
+                    'Keep a sketchbook with you',
+                    'Don\'t be afraid to make mistakes - that\'s how you learn!'
+                ]
+            },
+
+            'marine-biologist': {
+                icon: '🐋',
+                title: 'Marine Biologist',
+                subtitle: 'Study ocean life and ecosystems',
+                dreamConnection: 'Marine biologists protect our oceans for everyone to enjoy, ensuring natural resources are preserved for all communities.',
+                stages: [
+                    {
+                        title: 'Marine Biologist',
+                        age: 'Age 26+',
+                        icon: '🔬',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Study ocean animals and ecosystems',
+                                'Conduct research underwater or in labs',
+                                'Work to protect marine environments',
+                                'Teach others about ocean conservation'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Graduate School (Master\'s or PhD)',
+                        age: '2-6 years after college',
+                        icon: '🎓',
+                        items: [
+                            { label: 'What you study:', list: [
+                                'Specialized marine research',
+                                'Conduct original studies',
+                                'Publish scientific papers',
+                                'Often required for research positions'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'College/University',
+                        age: '4 years (Ages 18-22)',
+                        icon: '🎓',
+                        items: [
+                            { label: 'Major in:', list: [
+                                'Marine Biology, Biology, or Oceanography',
+                                'Take chemistry, physics, and math',
+                                'Learn scuba diving!'
+                            ]},
+                            { label: 'Activities:', list: [
+                                'Volunteer at aquariums',
+                                'Join marine research projects',
+                                'Get scuba certified',
+                                'Study abroad at coastal locations'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Classes you MUST take:', list: [
+                                'Biology, Chemistry, Physics',
+                                'Advanced Math',
+                                'Environmental Science if available'
+                            ]},
+                            { label: 'Get experience:', list: [
+                                'Visit aquariums and marine centers',
+                                'Volunteer for beach cleanups',
+                                'Learn to swim well',
+                                'Read about ocean life'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Build foundation:', list: [
+                                'Life Science and Earth Science classes',
+                                'Strong math skills',
+                                'Learn about ecosystems and environments'
+                            ]},
+                            { label: 'Explore:', list: [
+                                'Watch ocean documentaries',
+                                'Visit beaches and tide pools',
+                                'Learn about marine animals'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Watch ocean documentaries (Blue Planet, Our Planet)',
+                    'Read books about ocean animals and ecosystems',
+                    'Practice strong science and math skills',
+                    'Visit aquariums and ask lots of questions',
+                    'Learn to swim if you haven\'t already',
+                    'Start learning about environmental protection',
+                    'Keep a journal about ocean animals you learn about',
+                    'Pay attention in science class - especially life science!'
+                ]
+            },
+
+            'business-owner': {
+                icon: '💼',
+                title: 'Business Owner',
+                subtitle: 'Start and run your own company',
+                dreamConnection: 'Business owners create jobs and opportunities in their communities, helping everyone have a chance to succeed.',
+                stages: [
+                    {
+                        title: 'Business Owner/Entrepreneur',
+                        age: 'Any age (can start in high school or later!)',
+                        icon: '💼',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Start and run your own company',
+                                'Create products or services people need',
+                                'Hire and manage employees',
+                                'Make decisions about your business',
+                                'Take risks but reap rewards'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Start Small or Get Experience',
+                        age: 'Teens to 20s',
+                        icon: '🚀',
+                        items: [
+                            { label: 'Two paths:', list: [
+                                'Start small businesses (lawn care, tutoring, online store)',
+                                'Work at other companies to learn how business works',
+                                'Learn from successes AND failures',
+                                'Build your network of contacts'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'College (Optional but helpful)',
+                        age: '4 years (Ages 18-22)',
+                        icon: '🎓',
+                        items: [
+                            { label: 'Major in:', list: [
+                                'Business, Entrepreneurship, or your industry',
+                                'Marketing, Finance, or Management',
+                                'Note: Many successful entrepreneurs skip college!'
+                            ]},
+                            { label: 'Activities:', list: [
+                                'Start a business on campus',
+                                'Join entrepreneurship clubs',
+                                'Enter business competitions',
+                                'Network with professors and mentors'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Classes to take:', list: [
+                                'Business classes if available',
+                                'Math (for understanding money)',
+                                'English (for communication)',
+                                'Computer/Technology classes'
+                            ]},
+                            { label: 'Start learning NOW:', list: [
+                                'Start a small business (lawn care, tutoring, crafts)',
+                                'Learn about money and saving',
+                                'Practice selling and marketing',
+                                'Join DECA or business clubs'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Build skills:', list: [
+                                'Math - especially percentages and money',
+                                'Communication and persuasion',
+                                'Problem-solving',
+                                'Learning from mistakes'
+                            ]},
+                            { label: 'Try:', list: [
+                                'Sell items at craft fairs',
+                                'Start a lemonade stand or bake sale',
+                                'Learn how to save money'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Start a small business idea (sell crafts, offer services)',
+                    'Learn about money - how to save and spend wisely',
+                    'Practice your math skills (business needs lots of math!)',
+                    'Work on speaking clearly and confidently',
+                    'Learn to solve problems creatively',
+                    'Be responsible - finish what you start',
+                    'Ask local business owners about their work',
+                    'Don\'t be afraid to try and fail - that\'s how you learn!'
+                ]
+            },
+
+            chef: {
+                icon: '👨‍🍳',
+                title: 'Chef',
+                subtitle: 'Create delicious food experiences',
+                dreamConnection: 'Chefs bring people together through food, celebrating diverse cultures and creating experiences everyone can enjoy.',
+                stages: [
+                    {
+                        title: 'Professional Chef',
+                        age: 'Age 20+',
+                        icon: '👨‍🍳',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Create menus and cook delicious food',
+                                'Lead a kitchen team',
+                                'Work in restaurants, hotels, or own your restaurant',
+                                'Develop new recipes and flavor combinations'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Culinary School OR Work Experience',
+                        age: '2 years or skip school and learn on the job',
+                        icon: '🎓',
+                        items: [
+                            { label: 'Two paths:', list: [
+                                'Attend culinary school to learn techniques fast',
+                                'Start working in kitchens and work your way up',
+                                'Learn knife skills, cooking methods, and food safety',
+                                'Do internships at good restaurants'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Build Kitchen Experience',
+                        age: 'Starting in high school',
+                        icon: '🔪',
+                        items: [
+                            { label: 'Get started:', list: [
+                                'Work at restaurants (start as dishwasher or prep cook)',
+                                'Learn different cuisines and techniques',
+                                'Practice cooking at home constantly',
+                                'Watch cooking shows and read cookbooks'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Classes to take:', list: [
+                                'Family and Consumer Science (cooking classes)',
+                                'Chemistry (helps understand cooking science)',
+                                'Math (for recipes and measurements)',
+                                'Business classes (if you want your own restaurant)'
+                            ]},
+                            { label: 'Get experience:', list: [
+                                'Get a job in a restaurant',
+                                'Cook meals for your family',
+                                'Experiment with different recipes',
+                                'Join cooking competitions'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Build skills:', list: [
+                                'Math - for measurements and ratios',
+                                'Reading - to follow recipes',
+                                'Science - to understand how cooking works',
+                                'Take cooking classes if available'
+                            ]},
+                            { label: 'Practice:', list: [
+                                'Help cook meals at home',
+                                'Try following recipes',
+                                'Learn kitchen safety',
+                                'Taste lots of different foods'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Help cook meals at home with adult supervision',
+                    'Learn to follow recipes carefully',
+                    'Practice kitchen safety (ask adults first!)',
+                    'Try foods from different cultures',
+                    'Watch cooking shows and pay attention to techniques',
+                    'Practice your math (measuring, fractions, doubling recipes)',
+                    'Keep your work area clean and organized',
+                    'Don\'t be afraid to make mistakes - even the best chefs burn food sometimes!'
+                ]
+            },
+
+            scientist: {
+                icon: '🔬',
+                title: 'Scientist',
+                subtitle: 'Discover how the world works',
+                dreamConnection: 'Scientists discover truths about our world and share knowledge that benefits all of humanity equally.',
+                stages: [
+                    {
+                        title: 'Research Scientist',
+                        age: 'Age 28+',
+                        icon: '🔬',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Conduct experiments to answer questions',
+                                'Make discoveries that help people',
+                                'Publish research in scientific journals',
+                                'Work in labs, universities, or companies'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'PhD Program (Doctorate)',
+                        age: '4-7 years after college',
+                        icon: '🎓',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Become an expert in your field',
+                                'Conduct original research',
+                                'Write a dissertation (big research paper)',
+                                'Often needed for research scientist jobs'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'College/University',
+                        age: '4 years (Ages 18-22)',
+                        icon: '🎓',
+                        items: [
+                            { label: 'Major in:', list: [
+                                'Biology, Chemistry, Physics, or your science interest',
+                                'Take lots of math',
+                                'Do research with professors'
+                            ]},
+                            { label: 'Activities:', list: [
+                                'Join research labs',
+                                'Present at science conferences',
+                                'Apply for research internships',
+                                'Maintain excellent GPA (3.5+)'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Classes you MUST take:', list: [
+                                'Biology, Chemistry, Physics',
+                                'Advanced Math (Algebra through Calculus)',
+                                'AP Science classes if available',
+                                'Computer Science (helpful for data analysis)'
+                            ]},
+                            { label: 'Get involved:', list: [
+                                'Science fairs and competitions',
+                                'Science clubs',
+                                'Summer research programs',
+                                'Shadow scientists at universities'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Build foundation:', list: [
+                                'All science classes - Life, Earth, Physical',
+                                'Strong math skills',
+                                'Learn the scientific method',
+                                'Ask lots of questions!'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Be curious - ask "why" and "how" about everything!',
+                    'Do well in science AND math classes',
+                    'Conduct simple experiments at home',
+                    'Enter your school science fair',
+                    'Read science books and magazines',
+                    'Watch science documentaries and videos',
+                    'Keep a science journal of observations',
+                    'Don\'t be afraid to fail - scientists fail all the time before they succeed!'
+                ]
+            },
+
+            'game-designer': {
+                icon: '🎮',
+                title: 'Video Game Designer',
+                subtitle: 'Create fun and engaging games',
+                dreamConnection: 'Game designers create experiences that bring diverse people together, building worlds where everyone can be heroes.',
+                stages: [
+                    {
+                        title: 'Video Game Designer',
+                        age: 'Age 22+',
+                        icon: '🎮',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Design game mechanics and storylines',
+                                'Create fun and engaging player experiences',
+                                'Work with programmers and artists',
+                                'Test and refine games'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Build Your Portfolio',
+                        age: 'During and after college',
+                        icon: '💾',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Create your own games (even simple ones!)',
+                                'Do internships at game companies',
+                                'Join game jams (timed game creation events)',
+                                'Network with other game developers'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'College (Optional but helpful)',
+                        age: '4 years (Ages 18-22)',
+                        icon: '🎓',
+                        items: [
+                            { label: 'Major in:', list: [
+                                'Game Design, Computer Science, or Digital Media',
+                                'Learn programming and design software',
+                                'Study storytelling and user experience'
+                            ]},
+                            { label: 'Note:', list: [
+                                'Many game designers are self-taught!',
+                                'Portfolio matters more than degree',
+                                'But college helps you network and learn faster'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Classes to take:', list: [
+                                'Computer Science/Programming',
+                                'Art and Digital Media',
+                                'Math (for game mechanics)',
+                                'English (for storytelling)'
+                            ]},
+                            { label: 'Start creating:', list: [
+                                'Learn game engines (Unity, Unreal, Roblox Studio)',
+                                'Make simple games',
+                                'Join game design clubs or competitions',
+                                'Play lots of games and analyze what makes them fun'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Build skills:', list: [
+                                'Basic computer skills',
+                                'Creative writing and storytelling',
+                                'Math and logic',
+                                'Art and drawing'
+                            ]},
+                            { label: 'Explore:', list: [
+                                'Try Scratch or other beginner coding',
+                                'Design board games or card games',
+                                'Play different types of games',
+                                'Think about what makes games fun or frustrating'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Play different types of games and think about why they\'re fun',
+                    'Try Scratch or other visual programming tools',
+                    'Design your own board game or card game',
+                    'Draw characters, maps, or game ideas',
+                    'Learn basic computer skills',
+                    'Tell stories - games need good stories!',
+                    'Work on math skills (game design uses lots of math)',
+                    'Don\'t just play games - think about HOW they work!'
+                ]
+            },
+
+            'web-designer': {
+                icon: '💻',
+                title: 'Web Designer',
+                subtitle: 'Build websites and digital experiences',
+                dreamConnection: 'Web designers make information accessible to everyone online, ensuring equal access to knowledge and opportunities.',
+                stages: [
+                    {
+                        title: 'Professional Web Designer',
+                        age: 'Age 20+',
+                        icon: '💻',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Design and build beautiful websites',
+                                'Make sites easy and enjoyable to use',
+                                'Work for companies or as a freelancer',
+                                'Keep learning new technologies'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Build Your Portfolio',
+                        age: 'Teens to 20s',
+                        icon: '🌐',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Create websites for practice',
+                                'Do freelance projects for small businesses',
+                                'Contribute to open source projects',
+                                'Show your best work online'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'College OR Self-Taught',
+                        age: '4 years or learn on your own',
+                        icon: '🎓',
+                        items: [
+                            { label: 'Two paths:', list: [
+                                'Get a degree in Web Design, Computer Science, or Digital Media',
+                                'Teach yourself using online courses and tutorials',
+                                'Many successful web designers are self-taught!',
+                                'Portfolio matters more than degree'
+                            ]},
+                            { label: 'Learn:', list: [
+                                'HTML, CSS, JavaScript',
+                                'Design principles and user experience',
+                                'Design software (Figma, Adobe XD)'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Classes to take:', list: [
+                                'Computer Science',
+                                'Art and Design',
+                                'Any technology classes available',
+                                'Math (helps with coding logic)'
+                            ]},
+                            { label: 'Start learning:', list: [
+                                'Learn HTML and CSS online (free!)',
+                                'Build simple websites',
+                                'Take online courses (Codecademy, freeCodeCamp)',
+                                'Offer to build sites for school clubs or local businesses'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Build foundation:', list: [
+                                'Computer skills and typing',
+                                'Basic understanding of how websites work',
+                                'Creativity and visual design sense',
+                                'Problem-solving skills'
+                            ]},
+                            { label: 'Explore:', list: [
+                                'Try simple coding websites (Hour of Code)',
+                                'Play with website builders',
+                                'Notice what makes websites good or bad'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Get comfortable using computers and typing',
+                    'Try free coding websites like Code.org or Scratch',
+                    'Look at different websites and notice what you like/don\'t like',
+                    'Learn basic computer skills',
+                    'Practice being creative with colors and design',
+                    'Be curious about how websites and apps work',
+                    'Don\'t be afraid to experiment and break things (that\'s how you learn!)',
+                    'Start thinking like a problem-solver'
+                ]
+            },
+
+            pilot: {
+                icon: '✈️',
+                title: 'Pilot',
+                subtitle: 'Fly planes and transport people',
+                dreamConnection: 'Pilots connect people across distances, bringing families together and making the world smaller and more united.',
+                stages: [
+                    {
+                        title: 'Commercial Airline Pilot',
+                        age: 'Age 23+',
+                        icon: '✈️',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Fly passengers or cargo safely',
+                                'Navigate through all weather conditions',
+                                'Work with co-pilots and crew',
+                                'Travel to different cities and countries'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Build Flight Hours & Get Airline Job',
+                        age: '2-5 years after getting licenses',
+                        icon: '🛩️',
+                        items: [
+                            { label: 'Build experience:', list: [
+                                'Become a flight instructor',
+                                'Fly for small charter companies',
+                                'Need 1,500+ flight hours for airline jobs',
+                                'This takes time but you\'re getting paid to fly!'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Flight School & Get Licenses',
+                        age: '1-2 years (can start at age 17)',
+                        icon: '📜',
+                        items: [
+                            { label: 'Get these licenses in order:', list: [
+                                'Private Pilot License (PPL)',
+                                'Instrument Rating',
+                                'Commercial Pilot License (CPL)',
+                                'Airline Transport Pilot (ATP) License'
+                            ]},
+                            { label: 'Two paths:', list: [
+                                'Go to flight school (expensive but faster)',
+                                'Join military and learn to fly (free training!)',
+                                'Flight school costs $80,000-150,000 total'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Classes to take:', list: [
+                                'Physics and Math (essential for understanding flight)',
+                                'Geography',
+                                'Keep good grades - airlines check!',
+                                'Stay out of trouble (background checks required)'
+                            ]},
+                            { label: 'Get started:', list: [
+                                'Visit local airports and talk to pilots',
+                                'Take an introductory flight lesson',
+                                'Join Civil Air Patrol or aviation clubs',
+                                'Consider ROTC for military pilot route',
+                                'Stay physically fit (pilots need medical certificates)'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Build foundation:', list: [
+                                'Strong math and science skills',
+                                'Learn about weather and geography',
+                                'Read books about aviation',
+                                'Practice good decision-making'
+                            ]},
+                            { label: 'Stay healthy:', list: [
+                                'Good vision (correctable with glasses is OK)',
+                                'No major health issues',
+                                'Stay active and fit'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Do well in math and science - pilots use both constantly!',
+                    'Read books about airplanes and flight',
+                    'Visit airports and watch planes take off',
+                    'Learn about weather and how it affects flying',
+                    'Play flight simulator games',
+                    'Keep your eyes healthy and get check-ups',
+                    'Stay physically active',
+                    'Practice making good decisions quickly'
+                ]
+            },
+
+            actor: {
+                icon: '🎭',
+                title: 'Actor',
+                subtitle: 'Perform and tell stories on stage/screen',
+                dreamConnection: 'Actors tell stories that help people understand different perspectives and experiences, building empathy across all communities.',
+                stages: [
+                    {
+                        title: 'Professional Actor',
+                        age: 'Any age!',
+                        icon: '🎭',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Perform in movies, TV shows, theater, or commercials',
+                                'Bring characters to life',
+                                'Audition constantly (rejection is part of the job)',
+                                'Keep training and improving your craft'
+                            ]},
+                            { label: 'Reality check:', list: [
+                                'Very competitive field',
+                                'Most actors need "day jobs" while pursuing acting',
+                                'Success requires talent, hard work, AND luck',
+                                'But it\'s incredibly rewarding when you succeed!'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Build Your Career',
+                        age: 'Ongoing - can start in your teens!',
+                        icon: '🎬',
+                        items: [
+                            { label: 'Get experience:', list: [
+                                'Audition for everything you can',
+                                'Get professional headshots',
+                                'Get an agent if possible',
+                                'Move to LA, NYC, or other entertainment hub (eventually)',
+                                'Network with other actors and directors',
+                                'Keep taking classes'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'College/Acting School (Optional)',
+                        age: '2-4 years',
+                        icon: '🎓',
+                        items: [
+                            { label: 'Two paths:', list: [
+                                'Get a theater/acting degree at university',
+                                'Attend a specialized acting conservatory',
+                                'Skip college and start auditioning!',
+                                'Many successful actors never went to college'
+                            ]},
+                            { label: 'What helps:', list: [
+                                'Training in different acting methods',
+                                'Voice and movement classes',
+                                'Networking with future filmmakers',
+                                'Building confidence'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Get involved:', list: [
+                                'Join drama club and school plays',
+                                'Take acting classes outside school',
+                                'Audition for community theater',
+                                'Make short films with friends',
+                                'Enter drama competitions'
+                            ]},
+                            { label: 'Build skills:', list: [
+                                'Public speaking',
+                                'Reading and analyzing scripts',
+                                'Voice and movement training',
+                                'Confidence and stage presence'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Get started:', list: [
+                                'Join school plays or talent shows',
+                                'Take drama classes if available',
+                                'Read plays and scripts',
+                                'Watch movies and study how actors perform'
+                            ]},
+                            { label: 'Practice:', list: [
+                                'Reading out loud with expression',
+                                'Performing in front of people',
+                                'Getting comfortable on stage',
+                                'Trying different characters and voices'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Join any school performances or talent shows',
+                    'Practice reading out loud with lots of expression',
+                    'Watch movies and shows - study how actors perform',
+                    'Don\'t be afraid to be silly or dramatic',
+                    'Work on being confident in front of others',
+                    'Memorize short poems or monologues',
+                    'Get comfortable making mistakes (acting requires lots of practice!)',
+                    'Use your imagination - create characters and stories'
+                ]
+            },
+
+            inventor: {
+                icon: '💡',
+                title: 'Inventor',
+                subtitle: 'Create new solutions to problems',
+                dreamConnection: 'Inventors create solutions that make life better for everyone, solving problems that affect all communities equally.',
+                stages: [
+                    {
+                        title: 'Professional Inventor',
+                        age: 'Any age - even kids invent!',
+                        icon: '💡',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Identify problems that need solving',
+                                'Design and test new solutions',
+                                'Patent your inventions',
+                                'Either sell your idea or start a company',
+                                'Keep inventing and improving'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Develop & Patent Inventions',
+                        age: 'Ongoing',
+                        icon: '🔧',
+                        items: [
+                            { label: 'The process:', list: [
+                                'Build prototypes and test them',
+                                'Get feedback and improve designs',
+                                'File for patents to protect your ideas',
+                                'Find investors or manufacturers',
+                                'Market your invention'
+                            ]},
+                            { label: 'Paths:', list: [
+                                'Work for a company\'s R&D department',
+                                'Be an independent inventor',
+                                'Start your own company around your invention'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'College (In relevant field)',
+                        age: '4 years (Ages 18-22)',
+                        icon: '🎓',
+                        items: [
+                            { label: 'Helpful majors:', list: [
+                                'Engineering (Mechanical, Electrical, etc.)',
+                                'Industrial Design',
+                                'Computer Science',
+                                'Physics or Chemistry',
+                                'But remember: formal education is helpful, not required!'
+                            ]},
+                            { label: 'Activities:', list: [
+                                'Join maker spaces and innovation labs',
+                                'Enter invention competitions',
+                                'Build lots of prototypes',
+                                'Learn from failures'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Classes to take:', list: [
+                                'Physics, Chemistry, Math',
+                                'Engineering or Technology classes',
+                                'Computer Science',
+                                'Art/Design (for creative thinking)'
+                            ]},
+                            { label: 'Start inventing:', list: [
+                                'Enter invention competitions',
+                                'Join robotics club or maker spaces',
+                                'Build things in your garage',
+                                'Learn CAD (computer-aided design)',
+                                'Keep a journal of ideas'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Build skills:', list: [
+                                'Strong science and math foundation',
+                                'Creative problem-solving',
+                                'Curiosity about how things work',
+                                'Not being afraid to fail and try again'
+                            ]},
+                            { label: 'Explore:', list: [
+                                'Take things apart (with permission!)',
+                                'Build with LEGOs, craft supplies, Arduino',
+                                'Join science fairs',
+                                'Read about famous inventors'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Notice problems in your daily life that need solutions',
+                    'Keep an "invention journal" - write down all your ideas!',
+                    'Build things with whatever you have (cardboard, LEGOs, etc.)',
+                    'Don\'t be afraid to fail - every inventor fails constantly!',
+                    'Take things apart to see how they work (ask permission first!)',
+                    'Do well in science and math',
+                    'Ask lots of "why" and "what if" questions',
+                    'Watch videos of inventors and how they create things'
+                ]
+            },
+
+            'animal-trainer': {
+                icon: '🐕',
+                title: 'Animal Trainer',
+                subtitle: 'Train and work with animals',
+                dreamConnection: 'Animal trainers show patience, respect, and the power of positive communication - skills that help build better relationships between all beings.',
+                stages: [
+                    {
+                        title: 'Professional Animal Trainer',
+                        age: 'Age 18+',
+                        icon: '🐕',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Train animals for movies, shows, or service work',
+                                'Work with pet owners to solve behavior problems',
+                                'Train service dogs or therapy animals',
+                                'Work at zoos, aquariums, or marine parks'
+                            ]},
+                            { label: 'Different specialties:', list: [
+                                'Dog trainer (most common)',
+                                'Marine mammal trainer',
+                                'Exotic animal trainer',
+                                'Service dog trainer'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Get Certified & Build Experience',
+                        age: '1-2 years',
+                        icon: '📜',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Get certification (not always required but helpful)',
+                                'Apprentice with experienced trainers',
+                                'Work at kennels, shelters, or training facilities',
+                                'Build your reputation and client base'
+                            ]},
+                            { label: 'Certifications:', list: [
+                                'Certified Professional Dog Trainer (CPDT)',
+                                'Karen Pryor Academy',
+                                'Animal Behavior College',
+                                'Many paths - some trainers are self-taught!'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'College (Optional)',
+                        age: '4 years or skip and start training',
+                        icon: '🎓',
+                        items: [
+                            { label: 'Helpful majors:', list: [
+                                'Animal Science',
+                                'Biology or Zoology',
+                                'Psychology (animal behavior)',
+                                'Many successful trainers have no degree!'
+                            ]},
+                            { label: 'What helps:', list: [
+                                'Understanding animal behavior',
+                                'Learning different training methods',
+                                'Networking with other trainers',
+                                'But hands-on experience matters most!'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Classes:', list: [
+                                'Biology (understand animal bodies)',
+                                'Psychology (animal behavior)',
+                                'Any animal science classes available'
+                            ]},
+                            { label: 'Get experience NOW:', list: [
+                                'Volunteer at animal shelters',
+                                'Get a job at a pet store or kennel',
+                                'Shadow professional trainers',
+                                'Train your own pets',
+                                'Volunteer with therapy animal programs'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Build foundation:', list: [
+                                'Learn about animal behavior',
+                                'Life Science classes',
+                                'Practice patience and consistency',
+                                'Spend time around different animals'
+                            ]},
+                            { label: 'Start learning:', list: [
+                                'Read books about dog training',
+                                'Watch animal training videos',
+                                'Practice training pets or friends\' pets',
+                                'Visit zoos and aquariums - watch animal shows'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Spend time with animals whenever you can',
+                    'If you have a pet, practice training basic commands',
+                    'Read books about animal behavior and training',
+                    'Watch how animals communicate with each other',
+                    'Practice being patient - training takes time!',
+                    'Volunteer to walk dogs for neighbors',
+                    'Visit animal shelters and ask questions',
+                    'Learn to read animal body language (what they\'re feeling)'
+                ]
+            },
+
+            doctor: {
+                icon: '🩺',
+                title: 'Doctor',
+                subtitle: 'Help people heal and save lives',
+                dreamConnection: 'Doctors help build Dr. King\'s vision by providing healthcare to everyone, regardless of who they are. You\'ll serve your community and save lives.',
+                stages: [
+                    {
+                        title: 'Practicing Doctor',
+                        age: 'Age 30+',
+                        icon: '🏥',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Diagnose and treat patients',
+                                'Perform surgeries or procedures',
+                                'Help people live healthier lives',
+                                'Work in hospitals, clinics, or private practice'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Medical School',
+                        age: '4 years after college',
+                        icon: '🎓',
+                        items: [
+                            { label: 'What you study:', list: [
+                                'Human anatomy and physiology',
+                                'Diseases and treatments',
+                                'Patient care and medical ethics',
+                                'Clinical rotations in hospitals'
+                            ]},
+                            { label: 'Money matters:', list: [
+                                'Scholarships available for good students',
+                                'Work hard now = more opportunities later',
+                                'Very expensive but doctors earn good salaries'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'College/University',
+                        age: '4 years (Ages 18-22)',
+                        icon: '🎓',
+                        items: [
+                            { label: 'Major in:', list: [
+                                'Biology, Chemistry, or Pre-Med',
+                                'Need GPA of 3.5 or higher',
+                                'Take the MCAT exam'
+                            ]},
+                            { label: 'Activities:', list: [
+                                'Volunteer at hospitals',
+                                'Join science clubs',
+                                'Shadow doctors',
+                                'Get clinical experience'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Classes you MUST take:', list: [
+                                'Biology, Chemistry, Physics',
+                                'Advanced Math (Algebra, Geometry, Calculus)',
+                                'English (strong communication skills)'
+                            ]},
+                            { label: 'GPA Goal:', list: [
+                                '3.5 or higher',
+                                'Build strong study habits',
+                                'Take AP classes if available'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Classes:', list: [
+                                'Pre-Algebra and Algebra',
+                                'Life Science and Physical Science',
+                                'Start developing good study routines'
+                            ]},
+                            { label: 'Habits to build:', list: [
+                                'Time management',
+                                'Curiosity about science',
+                                'Helping others',
+                                'Strong work ethic'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Master multiplication and division (doctors use math every day!)',
+                    'Pay attention in science - learn about the human body',
+                    'Read 2 books about doctors or medicine this year',
+                    'Practice helping others and working on teams',
+                    'Ask your teacher about science experiments',
+                    'Keep your grades strong in ALL subjects',
+                    'Practice asking questions when you don\'t understand',
+                    'Volunteer to help classmates who need support'
+                ]
+            },
+
+            engineer: {
+                icon: '⚙️',
+                title: 'Engineer',
+                subtitle: 'Design and build amazing things',
+                dreamConnection: 'Engineers solve problems and build infrastructure that helps entire communities thrive, creating opportunities for everyone.',
+                stages: [
+                    {
+                        title: 'Professional Engineer',
+                        age: 'Age 22+',
+                        icon: '🔧',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Design buildings, machines, software, or systems',
+                                'Solve technical problems',
+                                'Work on teams to create new technology',
+                                'Make the world safer and more efficient'
+                            ]},
+                            { label: 'Types of engineers:', list: [
+                                'Mechanical, Electrical, Civil, Chemical',
+                                'Software, Aerospace, Biomedical',
+                                'Environmental, Industrial, and more!'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Get Licensed (Optional)',
+                        age: 'After gaining work experience',
+                        icon: '📜',
+                        items: [
+                            { label: 'Professional Engineer (PE) License:', list: [
+                                'Required for some engineering jobs',
+                                'Shows you\'re an expert',
+                                'Requires passing exams and work experience',
+                                'Not all engineers need this'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'College/University',
+                        age: '4 years (Ages 18-22)',
+                        icon: '🎓',
+                        items: [
+                            { label: 'Major in:', list: [
+                                'Engineering (choose your specialty)',
+                                'Very challenging - lots of math and science!',
+                                'Hands-on projects and labs',
+                                'Internships are super important'
+                            ]},
+                            { label: 'Activities:', list: [
+                                'Join engineering clubs and competitions',
+                                'Do summer internships',
+                                'Work on design projects',
+                                'Network with professionals'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Classes you MUST take:', list: [
+                                'Physics, Chemistry',
+                                'Advanced Math (through Calculus if possible)',
+                                'Computer Science',
+                                'Take AP classes'
+                            ]},
+                            { label: 'Get involved:', list: [
+                                'Robotics club',
+                                'Science fairs',
+                                'Math competitions',
+                                'Build things in your spare time'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Build foundation:', list: [
+                                'Strong math skills (Algebra is crucial)',
+                                'Physical Science',
+                                'Learn to think logically and solve problems',
+                                'Get comfortable with technology'
+                            ]},
+                            { label: 'Explore:', list: [
+                                'Build with LEGOs, robotics kits',
+                                'Take things apart to see how they work',
+                                'Join STEM clubs'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Master your math facts - engineering is ALL about math!',
+                    'Build things with LEGOs, K\'NEX, or whatever you have',
+                    'Take things apart to see how they work (ask permission first!)',
+                    'Pay close attention in science class',
+                    'Ask "how does this work?" about everything you see',
+                    'Try coding games like Scratch or Minecraft',
+                    'Don\'t give up when math gets hard - practice makes perfect!',
+                    'Keep a notebook of cool inventions or machines you see'
+                ]
+            },
+
+            marine: {
+                icon: '🇺🇸',
+                title: 'U.S. Marine',
+                subtitle: 'Serve and protect our country',
+                dreamConnection: 'Marines defend freedom and protect the rights of all people, ensuring everyone can pursue their dreams in safety. Dr. King believed in justice and equality - Marines fight to protect those values.',
+                stages: [
+                    {
+                        title: 'Active Duty Marine',
+                        age: 'Age 18+',
+                        icon: '🎖️',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Serve and protect the United States',
+                                'Work as part of an elite team',
+                                'Develop leadership and discipline',
+                                'Specialize in a career field (aviation, technology, combat, etc.)',
+                                'Travel around the world'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Marine Corps Boot Camp',
+                        age: '13 weeks after enlisting',
+                        icon: '💪',
+                        items: [
+                            { label: 'The Challenge:', list: [
+                                '13 weeks of intense training at Parris Island or San Diego',
+                                'Physical fitness, combat training, Marine Corps values',
+                                'Learn teamwork, discipline, and mental toughness',
+                                'Earn the title "Marine"'
+                            ]},
+                            { label: 'Requirements to enter:', list: [
+                                'Age 17-28 (with parental consent at 17)',
+                                'U.S. citizen or resident',
+                                'Pass physical fitness test',
+                                'Pass the ASVAB test'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'After High School - Decision Time',
+                        age: 'Age 18',
+                        icon: '🎓',
+                        items: [
+                            { label: 'Two paths:', list: [
+                                'Enlist directly: Join right after high school, get training and experience, Marines will pay for college later',
+                                'College + Officer route: Go to college first (ROTC program or after graduation), become an officer, lead Marines'
+                            ]},
+                            { label: 'Benefits:', list: [
+                                'Free healthcare',
+                                'Housing allowance',
+                                'GI Bill for college (up to $100,000+)',
+                                'Retirement after 20 years',
+                                'Job training and leadership experience'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Must Do:', list: [
+                                'Graduate high school - this is required!',
+                                'Stay out of serious trouble (clean record)',
+                                'Pass the ASVAB practice tests',
+                                'Get physically fit (running, push-ups, pull-ups)'
+                            ]},
+                            { label: 'Great to Do:', list: [
+                                'Join JROTC if your school has it',
+                                'Play sports (builds teamwork and fitness)',
+                                'Volunteer in your community',
+                                'Take leadership roles in clubs'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Build Foundation:', list: [
+                                'Stay in school and keep good grades',
+                                'Start getting physically active',
+                                'Learn about teamwork through sports or clubs',
+                                'Practice discipline and following rules',
+                                'Learn American history and civics'
+                            ]},
+                            { label: 'Character Development:', list: [
+                                'Respect for authority',
+                                'Helping others',
+                                'Standing up for what\'s right',
+                                'Physical and mental toughness'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Do well in ALL classes - Marines need to graduate high school',
+                    'Start exercising - run, do push-ups, stay active and healthy',
+                    'Practice being a good teammate in sports or group projects',
+                    'Follow rules and show respect to teachers and adults',
+                    'Learn about American history and what makes our country special',
+                    'Stand up for others who are being treated unfairly',
+                    'Practice finishing what you start - don\'t give up when things get hard',
+                    'Help out at home - make your bed, do chores without being asked',
+                    'Be honest and take responsibility for your actions',
+                    'Work on being brave - try new things even when they\'re scary'
+                ]
+            },
+
+            athlete: {
+                icon: '⚽',
+                title: 'Professional Athlete',
+                subtitle: 'Compete at the highest level',
+                dreamConnection: 'Athletes inspire and unite people from all backgrounds, showing that dedication and character matter most. Sports bring communities together.',
+                stages: [
+                    {
+                        title: 'Professional Athlete',
+                        age: 'Late teens to 30s (varies by sport)',
+                        icon: '🏆',
+                        items: [
+                            { label: 'What you do:', list: [
+                                'Compete at the highest level in your sport',
+                                'Train intensively every day',
+                                'Inspire fans and represent your team',
+                                'Earn money through contracts and endorsements'
+                            ]},
+                            { label: 'Reality check:', list: [
+                                'VERY competitive - only the best make it',
+                                'Short career span (most retire in 30s)',
+                                'Risk of injuries',
+                                'Need a backup plan and education!',
+                                'But incredibly rewarding if you make it!'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'College Athletics (or Pro earlier)',
+                        age: '4 years (Ages 18-22)',
+                        icon: '🎓',
+                        items: [
+                            { label: 'Two main paths:', list: [
+                                'Play college sports and get noticed by pro scouts',
+                                'Some sports (tennis, soccer) go pro earlier',
+                                'Get a degree while playing - you\'ll need it!',
+                                'Athletic scholarships can pay for college'
+                            ]},
+                            { label: 'What you do:', list: [
+                                'Train and compete at collegiate level',
+                                'Balance athletics with academics',
+                                'Get stronger, faster, better',
+                                'Network with coaches and scouts'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'High School Athletics',
+                        age: 'Grades 9-12',
+                        icon: '🏫',
+                        items: [
+                            { label: 'Critical years:', list: [
+                                'Play your sport at the highest level possible',
+                                'Make varsity teams',
+                                'Compete in tournaments and championships',
+                                'Get noticed by college recruiters',
+                                'Keep good grades (need to qualify for college!)'
+                            ]},
+                            { label: 'Also important:', list: [
+                                'Train year-round, not just in season',
+                                'Work with specialized coaches',
+                                'Attend camps and showcases',
+                                'Take care of your body - prevent injuries'
+                            ]}
+                        ]
+                    },
+                    {
+                        title: 'Middle School',
+                        age: 'Grades 6-8',
+                        icon: '📖',
+                        items: [
+                            { label: 'Build your foundation:', list: [
+                                'Play your sport and others (cross-training helps)',
+                                'Join school teams and club teams',
+                                'Learn proper technique',
+                                'Start strength and conditioning',
+                                'Develop mental toughness'
+                            ]},
+                            { label: 'Important habits:', list: [
+                                'Practice even when you don\'t feel like it',
+                                'Learn from losses and failures',
+                                'Be coachable and humble',
+                                'Take care of your body'
+                            ]}
+                        ]
+                    }
+                ],
+                fifthGrade: [
+                    'Play your sport as much as possible - practice, practice, practice!',
+                    'Try different sports to find what you love and build athleticism',
+                    'Stay active and healthy every day',
+                    'Learn to push yourself even when it\'s hard',
+                    'Listen to coaches and be willing to learn',
+                    'Watch professional games and learn from the best',
+                    'Take care of your body - eat healthy, sleep enough, stretch',
+                    'Don\'t give up when you fail - champions fail and get back up!',
+                    'Keep good grades - you need education as backup',
+                    'Have fun! If you don\'t love it, you won\'t stick with it'
+                ]
+            },
+
+        };
+
+        // Generate career cards
+        function generateCareerCards() {
+            const grid = document.getElementById('career-grid');
+            
+            for (const [key, career] of Object.entries(careers)) {
+                const card = document.createElement('div');
+                card.className = 'career-card';
+                card.onclick = () => showCareer(key);
+                card.innerHTML = `
+                    <div class="career-icon">${career.icon}</div>
+                    <h3>${career.title}</h3>
+                    <p>${career.subtitle}</p>
+                `;
+                grid.appendChild(card);
+            }
+        }
+
+        // Generate pathway view
+        function showCareer(careerKey) {
+            const career = careers[careerKey];
+            const container = document.getElementById('pathway-container');
+            
+            // Hide landing
+            document.getElementById('landing').classList.add('hidden');
+            
+            // Build timeline items
+            let timelineHTML = '';
+            career.stages.forEach((stage, index) => {
+                const isEven = index % 2 === 0;
+                timelineHTML += `
+                    <div class="timeline-item">
+                        <div class="timeline-marker">${stage.icon}</div>
+                        <div class="timeline-content">
+                            <div class="stage-title">${stage.title}</div>
+                            <div class="age-range">${stage.age}</div>
+                            <div class="what-you-do">
+                                ${stage.items.map(item => `
+                                    <h4>${item.label}</h4>
+                                    <ul>
+                                        ${item.list.map(li => `<li>${li}</li>`).join('')}
+                                    </ul>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            // Add 5th grade section
+            timelineHTML += `
+                <div class="timeline-item today">
+                    <div class="timeline-marker">⭐</div>
+                    <div class="timeline-content">
+                        <div class="stage-title">TODAY - 5th Grade (That's YOU!)</div>
+                        <div class="age-range">Right Now!</div>
+                        <div class="what-you-do">
+                            <h4>What you can do RIGHT NOW:</h4>
+                            <div class="checklist">
+                                <h4 style="margin-bottom: 15px;">Your 5th Grade Action Checklist:</h4>
+                                ${career.fifthGrade.map((item, i) => `
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="${careerKey}-${i}">
+                                        <label for="${careerKey}-${i}">${item}</label>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = `
+                <div class="pathway-view active">
+                    <button class="back-button" onclick="goBack()">← Back to Careers</button>
+                    
+                    <div class="pathway-header">
+                        <h2>${career.icon} Path to Becoming a ${career.title}</h2>
+                        <div class="dream-connection">
+                            <strong>The Dream Connection:</strong> ${career.dreamConnection}
+                        </div>
+                    </div>
+
+                    <div class="timeline">
+                        ${timelineHTML}
+                    </div>
+
+                    <button class="print-button" onclick="window.print()">🖨️ Print My Blueprint</button>
+                </div>
+            `;
+            
+            window.scrollTo(0, 0);
+        }
+
+        function goBack() {
+            document.getElementById('landing').classList.remove('hidden');
+            document.getElementById('pathway-container').innerHTML = '';
+            window.scrollTo(0, 0);
+        }
+
+        // Initialize
+        generateCareerCards();
+    </script>
+</body>
+</html>
